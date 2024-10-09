@@ -1,0 +1,133 @@
+\documentclass{article}%ctex
+\input{~/code/math_commands.tex}
+
+
+
+
+\title{\huge Worksheet 4\\
+\normalsize}
+\begin{document}
+\maketitle
+
+\section{Norms Equivalency}
+Two norms in a finite-dimensional linear space $X$ (e.g.: $\mathbb{R}^n$), $\|\cdot\|_a$ and $\|\cdot\|_b$ are called equivalent if there is a constant $c$ such that for all $x$ in $X$,
+\begin{align}
+    \norm{\vx}_a\leq c\norm{\vx}_b,\qquad \norm{\vx}_b\leq c\norm{\vx}_a.
+\end{align}
+
+
+\subsection{}
+Suppose $\norm{\cdot}_a$ and $\norm{\cdot}_b$ are equivalent, and we know that an algorithm produces a sequence of vectors $\{\vx_n\}_{n\geq 1}$, $\norm{\vx_n}_a\to 0$ as $n\to\infty$. What could we conclude about $\norm{\vx_n}_b$'s behavior for $n\to\infty$?
+
+\subsection{}
+Suppose $\norm{\cdot}_a$ and $\norm{\cdot}_b$ are equivalent, $\norm{\cdot}_b$ and $\norm{\cdot}_c$ are equivalent. Are $\norm{\cdot}_a$ and $\norm{\cdot}_c$ equivalent?
+
+\subsection{}
+We first show that the vector norms on $\mathbb{R}^n$, $\norm{\cdot}_{2}$ and $\norm{\cdot}_{\infty}$, are equivalent. To do this prove the inequality:
+\begin{align*}
+    \norm{\vx}_\infty \leq \norm{\vx}_2 \leq \sqrt{n}\norm{\vx}_\infty.
+\end{align*}
+
+\subsection{}
+The induced matrix norm on $\mathbb{R}^{n\times n}$: $\norm{\cdot}_{2}$ and $\norm{\cdot}_{\infty}$ are equivalent as well. Prove the inequality
+\begin{align*}
+    &\norm{A}_\infty \leq \sqrt{n}\norm{ A}_2,\\
+    &\norm{ A}_2 \leq \sqrt{n}\norm{ A}_\infty.
+\end{align*}
+
+\subsection{}
+(optional) Prove that the norms $\norm{\cdot}_{1}$ and $\norm{\cdot}_{2}$ are equivalent on $\mathbb{R}^n$.
+
+
+
+\section{ matrix 2-Norms}
+
+We are going to show that, if U is a unitary matrix ($U^TU=I$), then
+$$
+\|AU\|_2=\|A\|_2,\quad \|UA\|_2=\|A\|_2
+$$
+
+\subsection{}
+Suppose $U$ is a unitary matrix, show that $\|Ux\|_2=\|x\|_2$ for any vector $x$.
+
+\subsection{}
+recall that the definition of matrix 2-norm is $\|A\|_2=\max_{x\neq 0}\frac{\|Ax\|_2}{\|x\|_2}$, show that $\|UA\|_2=\|A\|_2$ and $\|AU\|_2=\|A\|_2$ using the definition and above result.
+\subsection{connection with SVD}
+For any matrix $A\in \sR^{m\times n}$, we can express it by Singular Value Decomposition (SVD)
+\[
+A = U \Sigma V^T
+\]
+where $U\in \sR^{m\times m}$ and $V\in \sR^{n\times n}$ are orthogonal matrices, and $\Sigma\in \sR^{m\times n}$ is a diagonal matrix with non-negative entries $\sigma_1\geq \sigma_2\geq \cdots \geq \sigma_r\geq 0$ on the diagonal. Here $r=\text{rank}(A)$.
+Based the uni-Invariance of the frobenius norm and 2-norm, we have,
+$$
+\|A\|_2=\|\Sigma\|_2
+$$
+Show that $\|\Sigma\|_2=\sigma_1$.
+
+\subsection{}
+show that $\|A^{-1}\|=1/\sigma_r$
+
+
+\section{An ill-conditioned matrix}
+
+\subsection{review of condition number}
+$$
+\kappa(A)=\|A\|_2\|A^{-1}\|_2
+$$
+
+$$
+A=\begin{bmatrix}
+  1&0.9\\ 
+  0.9&1
+\end{bmatrix}
+$$
+This matrix is real and symmetric, so it can be diagonalized as 
+$$
+A=Q\Lambda Q^T
+$$
+Solve the eigenvalues of $A$ and using the eigenvalues to compute the condition number of $A$.
+
+\subsection{}
+Now we considet solve the linear system $Ax=b$ with $b=[1,1]^T$ and $Ax=\tilde{b}$ with $\tilde{b}=[1.1,0.9]^T$. You can solve the lienar system by LU decomposition or directly compute the inverse of $A$. 
+
+\subsection{}
+Compute the relative error of the solution $x$ and input $b$. What is the theoretical upper bound of ratio of them? Compare the actual error with the theoretical bound.
+
+\subsection{}
+Try $b=[1,-1]^T$ and $\tilde{b}=[1.1,-0.9]^T$. Also compute the ratio of errors.
+
+
+
+
+\section{Conditional number for the Hilbert matrix}  
+The Hilbert matrix $H\in \mathbb R^{n\times n}$ is a matrix with
+  entries
+  $$
+  h_{ij} = \frac{1}{i+j-1}.
+  $$ 
+\subsection{}
+Using MATLAB, compute the 2-norm-based condition
+  numbers for $n=3,5,10,20,25$.  You can use MATLAB's built-in function \textit{cond()} to compute the condition number of a matrix.
+  
+\subsection{}
+  Let's consider a relative right hand
+  side perturbation $\delta\boldsymbol b$ of a linear system with
+  $\|\delta\boldsymbol b\|_2/\|\boldsymbol b\|_2\approx
+  10^{-15}$. Write down the corresponding bounds $\|\delta\boldsymbol
+  x\|_2/\|\boldsymbol x\|_2$ from the theory we discussed in class.
+
+\subsection{}
+  Now, let's compute the actual error. Use the right-hand side vector
+  with entries $b_i = \sum_{j=1}^n(j/(i+j-1))$ chosen such that the
+  solution vector has entries $x_i=i$. Now, Compute the numerical
+  solutions\footnote{Note that all these computations contain tiny
+    errors due to the final precision of computer computations.}
+  $\boldsymbol x$, then re-compute $\boldsymbol b=H\boldsymbol x$ and
+  compare the relative right-hand side error and the relative error
+  in the solutions. How much are these better than the estimates you
+  got from the condition number? 
+    
+    
+
+\end{document}
+
