@@ -1,0 +1,186 @@
+\documentclass{article}%ctex
+\input{~/code/math_commands.tex}
+
+
+
+
+\title{\huge Session 6\\
+\normalsize}
+\author{Xuanxi Zhang}
+\begin{document}
+\maketitle
+
+\section{root finding}
+
+\subsection{fixed point iteration}
+\subsubsection{existence of fixed point}
+A function $g(x)$ has a fixed point if there exists a $x^*$ such that $g(x^*)=x^*$.
+
+\textbf{ex}: $g_1(x)=\frac{1}{3}\ln (x+1)+\frac{2}{3}$ has fixed point.
+
+\subsubsection{stability of fixed point}
+$g:[a, b] \rightarrow \mathbb{R}$  is continuous and has a fixed point $\xi$. Then we call $\xi$ is stable if for any $x_0$ sufficiently close to $\xi$, the fixed point iteration $x_{k+1}=g(x_k)$ converges to $\xi$.
+
+\textbf{Theorem}  Suppose that $g$ is continuously differentiable with $\left|g^{\prime}(\xi)\right|<1$, then the fixed point iteration converges to $\xi$ as $k \rightarrow \infty$ provided $x_0$ is sufficiently close to $\xi$.
+
+\textbf{ex}: $\xi=\frac{\pi}{2}$ is a stable fixed point for $g_2(x)=x+\cos x$.
+
+\textbf{Theorm} If $g(x)$ has a fixed point $\xi$ in $[c,d]$ and has a lipshitz constant $L<1$, then the fixed point iteration converges to $\xi$ as $k \rightarrow \infty$ starting from any $x_0\in [c,d]$.
+
+\textbf{ex}: starting form $[\frac{\pi}{4},\frac{3\pi}{4}]$, the fixed point iteration $x_{k+1}=g_2(x_k)$ will always converge.
+
+\textbf{ex}: starting form $[0,e-1]$, the fixed point iteration $x_{k+1}=g_1(x_k)$ will always converge.
+
+\subsubsection{speed of convergence}
+The sequence $\left\{x_k\right\}_{k \geq 1}$ converges (at least) linearly if
+
+$$
+\lim _{k \rightarrow \infty} \frac{\left|x_{k+1}-\xi\right|}{\left|x_k-\xi\right|}=\mu>0
+$$
+\begin{itemize}
+    \item $\mu=0 \rightarrow$ super-linear convergence
+    \item $\mu \in(0,1) \rightarrow$ linear convergence
+    \item $\mu=1 \rightarrow$ sub-linear convergence
+\end{itemize}
+
+\textbf{ex}: $x_k=1/k$ converges super-linearly to 0.
+
+\textbf{ex}:  $x_{k+1}=g_1(x_k)$ converge linearly since
+$$
+\lim_{x\rightarrow \xi}\frac{\left|g_1(x)-\xi\right|}{\left|x-\xi\right|}=g'_1(\xi)\in(0,1)
+$$
+
+Assume $x_k\rightarrow \xi$ if 
+$$\lim_{k\rightarrow\infty}\frac{|x_{k+1}-p|}{|x_k-\xi|^p}=\mu$$
+We call $p$ the order of convergence and $\mu$ the rate of convergence.
+
+\subsection{3 methods}
+\subsubsection{bisection}
+start with $f(a) f(b)<0$ on $[a,b]$.  converge linearly.
+
+\textbf{ex}: $f$ a continuous function admits a root $\xi$ in $[a,b]$, then the bisection method will always converge to the root $\xi$. Wrong, for example $f(x)=x^2$.
+
+\subsection{newton}
+$$x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}$$
+if $f$ is twice continuously differentiable and $f'(\xi)\neq 0$, then the newton method converges quadratically. Otherwise, it is linear.
+
+\textbf{ex}: For $f(x)=e^{3x-2}-x-1$, newton method converges quadratically to the root $\xi$.
+
+\subsection{secant}
+$$x_{k+1}=x_k-\frac{f(x_k)(x_k-x_{k-1})}{f(x_k)-f(x_{k-1})}$$
+converge at least linearly. The best convergence order is aproximately $1.6$.
+
+
+
+\section{LU and solve linear system}
+
+LU decomposition: $A=LU$
+
+Pivot LU decomposition: $PA=LU$
+
+\subsection{existence of LU and PLU}
+
+\textbf{Theorem} For $A \in \mathbb{R}^{n \times n}$, if every leading principle submatrix $A^{(k)}$ is non-singular $k=1, \ldots, n-1$, then $A=L U$ exists with a lower unit triangular matrix $L$ and upper triangular matrix $U$.
+
+\textbf{ex} Following matrix do not have a LU decomposition. If change first and second row, then it has a LU decomposition.
+$$
+A=\begin{bmatrix}
+    0 & 1 & 2 \\
+    3&-1&1\\
+    0&0&4
+\end{bmatrix}
+$$
+
+\textbf{Theorem} PLU always exists for any matrix $A \in \mathbb{R}^{n \times n}$.
+
+\subsection{solve linear system}
+To solve a linear system $Ax=b$, with the decomposition $PA=LU$, the steps are 
+\begin{enumerate}
+    \item $\tilde{b}=Pb$, it is a permutation of $b$
+    \item $Ly=\tilde{b}$, forward substitution
+    \item $Ux=y$, back substitution
+\end{enumerate}
+To solve the inverse of $A$, we can solve $n$ linear systems $Ax_i=e_i$ where $e_i$ is the $i$th column of the identity matrix. Then $x_i$ is the $i$th column of the inverse of $A$.
+
+\subsection{computing complexity}
+\begin{itemize}
+    \item Matrix times vector A*b: $2n^2\sim \gO(n^2)$
+    \item LU decomposition: $\frac{2}{3}n^3-\half n^2\sim \gO(n^3)$
+    \item back and forward substitution: $2n^2\sim \gO(n^2)$
+    \item solve linear system given PLU (or LU): $\gO(n^2)$
+    \item solve the inverse of $A$: $\gO(n^3)$
+    \item by the way using cramer's rule to solve the inverse of $A$ is $\gO(n!)$, which is rouphly $\gO(e^n)$
+\end{itemize}
+
+
+\section{norm and condition number}
+\subsection{definition}
+$V$ is a vector space. If a function $\norm{\cdot}:V \to \mathbb{R}$ satisfies
+\begin{itemize}
+    \item Positive definiteness: $\|v\|=0 \Longleftrightarrow v=0, \forall v \in V$.
+    \item Absolute homogeneity: $\|\lambda v\|=|\lambda|\|v\|, \forall v \in V, \lambda \in \mathbb{R}$.
+    \item  Triangular inequality: $\|v+w\| \leq\|v\|+\|w\|, \forall v, w \in V$, 
+\end{itemize}
+then $\norm{\cdot}$ is a norm.
+
+\textbf{ex} Is $\norm{\cdot}_1\norm{\cdot}_2$ a norm? No, absolute homogeneity is not satisfied.
+
+\textbf{vector norms}:
+\begin{itemize}
+    \item 1-norm: $\|x\|_1=\sum_{i=1}^n|x_i|$
+    \item 2-norm: $\|x\|_2=\sqrt{\sum_{i=1}^n x_i^2}$
+    \item $\infty$-norm: $\|x\|_{\infty}=\max_{1\leq i\leq n}|x_i|$
+\end{itemize}
+
+\textbf{matrix norms}:
+\begin{itemize}
+    \item induced norm: $\|A\|=\max_{x\neq 0}\frac{\norm{Ax}}{\norm{x}} =\max_{\|x\|=1}\|Ax\|$
+    \item 1-norm: $\|A\|_1=\max_{1\leq j\leq n}\sum_{i=1}^n|a_{ij}|$
+    \item $\infty$-norm: $\|A\|_{\infty}=\max_{1\leq i\leq n}\sum_{j=1}^n|a_{ij}|$
+    \item 2-norm: $\|A\|_2=\sqrt{\rho(A^TA)}$
+    \item Frobenius norm: $\|A\|_F=\sqrt{\sum_{i=1}^n\sum_{j=1}^n a_{ij}^2}$
+\end{itemize}
+
+In a space with finite dimention, norms are all equavalent. That is, there exists $c_>0$ such that $\norm{x}_a\leq c\norm{x}_b$ and $\norm{x}_b\leq c \norm{x}_a$. Therefore, in practical problems, the choice of norm does not significantly affect the result, as they all lead to comparable outcomes.
+
+matrix 2-norm has propety $\norm{A}_2=\norm{AQ_1}_2=\norm{Q_2A}_2$, where $A\in \sR^{m\times n}$, $Q_1\in \sR^{n\times n}$, $Q_2\in \sR^{m\times m}$ are orthogonal matrices. Proof by definition.
+
+For a digonal matrix $D$, $\norm{D}_2=\max_{1\leq i\leq n}|d_{ii}|$.
+
+\subsection{condition number}
+For a matrix $A$, the condition number is defined as
+$$
+\kappa(A)=\|A\|\|A^{-1}\|
+$$
+
+\textbf{ex} so $\kappa(A^{-1})=\norm{A^{-1}}\norm{A^{-1-1}}=\kappa(A)$
+
+\textbf{ex} For a permutation matrix, $\kappa_2(A)=\kappa_2(PA)$ because $P$ is also orthogonal.
+
+
+
+
+\section{least square}
+
+For $A\in\sR^{m\times n}$, when there is no exat solution for $Ax=b$, in order to obtain a solution  $x$ such that $Ax\sim b$, we solve the least quare problem $\min_x\|Ax-b\|_2^2$, which is equal to solve normal quation $A^TAx=A^Tb$. The normal equation will always have a solution no matter what $A$ is, because range of $A^TA$ is the same as range of $A$. The solution is unique if $A$ has full column rank.
+
+The QR decomposition for $A$ is $A=QR$, where $Q$ is orthogonal and $R$ is upper triangular. If $m>n$ and $A$ has full column rank, then $
+R=\begin{bmatrix}
+    \hat{R}\\
+    0
+\end{bmatrix}$, also seperate $Q=\begin{bmatrix}
+    \hat{Q}&\hat{\hat{Q}}
+\end{bmatrix}$ in the same way. Then we have $A=QR=\hat{Q}\hat{R}$, and
+$$\min_x\norm{Ax-b}_2=\min_x\norm{QRx-b}_2=\min_x\norm{Rx-Q^Tb}_2=\min_x\norm{\hat{R}x-\hat{Q}^Tb}_2+\norm{\hat{\hat{Q}}^Tb}_2.$$ The least square problem is equivalent to solve $\hat{R}x=\hat{Q}^Tb$.
+
+\textbf{note}: Given QR, the flop to sovle least square is $\gO(n^2)$
+
+
+
+\subsection{hoseholder}
+hoseholder transform $H=I-2\frac{vv^T}{v^v}$ is a orthogonal transfrom.
+
+\textbf{note}: $\norm{H}_2=\sqrt{\rho(H^TH)}=\sqrt{\rho(I)}=1$
+\textbf{note}: if $x\perp v$, Then $Hx=(I-2\frac{vv^T}{v^Tv})x=x-0=x$.
+
+\end{document}
