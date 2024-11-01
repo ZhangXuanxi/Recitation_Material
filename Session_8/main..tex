@@ -1,0 +1,123 @@
+\documentclass{article}%ctex
+\input{~/code/math_commands.tex}
+
+
+
+
+\title{\huge Session 8\\
+\normalsize}
+\author{Xuanxi Zhang}
+\begin{document}
+\maketitle
+
+
+
+\section{Gershgorin disks and the power method}
+
+Consider the matrix 
+$$
+A = \begin{bmatrix}
+- 6 & 2 & 0.3 & 0 & -0.7 \\
+2 & - 4 & 0.1 & 0.05 & 0 \\
+0.3 & 0.1 & 2 & 0.1 & 0.1 \\
+0 & 0.05 & 0.1 &  4 & 0 \\
+-0.7 & 0 & 0.1  & 0  & 6
+\end{bmatrix}
+$$
+and recall the definition of the Gershgorin disks:
+\[
+D_i = \{ z \in \mathbb C ~|~ |z - a_{ii}| \le \sum_{j \ne i} |a_{ij}| \}.
+\]
+
+Review of Complex Numbers: 
+$z\in\sC$ can be represented as $z=x+iy$, where $x,y\in\sR$ is called real part and image part, $i$ is the imaginary unit, $i*i=-1$. The modulus of $z$ is defined as $|z|=\sqrt{x^2+y^2}$.
+
+\subsection{}
+Argue that all eigenvalues of $A$ are real.
+
+\subsection{}
+What are the Gershgorin disks for $A$?  Give a set, $D \subset \mathbb{R}$, that contains all eigenvalues of $A$.
+
+\subsection{}
+Can you conclude that the eigenvalue with the largest absolute value is simple?
+
+\subsection{}
+Argue that $A$ is invertible. Conclude that all diagonally dominant matrix is invertible.
+
+\subsection{}
+True or False? Let $A \in \mathbb{R}^{n \times n}$ and $D_i$, $i
+  = 1,2,\dots,n$, be the Gerschgorin disks of $A$. If $0 \in
+  \bigcup_{i=1}^n D_i$ then $A$ is singular.
+  
+\subsection{}
+Write down the first iteration of the power method starting from $\vx_0 = (0,0,0,0,1)^T$.
+You don't need to normalize.
+Explain why $\vx_0 = \vzero$ is not a suitable starting point.
+
+\subsection{}
+The eigenvalues of $A$, after rounding, are $\{-7, -3, 2, 4, 6\}$.
+Which eigenvalue direction will the sequence of the previous question converge to?
+
+\
+
+\section{Computing eigenvalues via the Power Iteration}
+Given the following matrix:
+\[
+A=\begin{bmatrix}
+-2 & 1 & 4  \\ 1 & 1 & 1 \\ 4 & 1 & -2 \end{bmatrix},
+\]
+It has eigenvalues and eigenvectors:
+\[
+\lambda_1=0,
+\, {\boldsymbol v_1}
+=\begin{bmatrix}
+0.41  \\ -0.82 \\ 0.41 \end{bmatrix},\quad
+\lambda_2=-6,
+\,{\boldsymbol v_2}
+=\begin{bmatrix}
+0.71  \\ 0.0 \\ -0.71 \end{bmatrix},\quad
+\lambda_3=3, \,{\boldsymbol v_3}
+=\begin{bmatrix}
+-0.58  \\ -0.58 \\ -0.58 \end{bmatrix}.
+\]
+
+\subsection{}\label{sec:1.a}
+Calculate the first iterate of the power method when ${\boldsymbol x_0}=(0,1,1)^T$.
+
+\subsection{}
+Which eigenvalue direction will the sequence start from above $x_0$ converge to?
+  
+\subsection{}
+Give an initialization vector such that the power method does \emph{not} converge to the direction of the largest (in absolute value) eigenvalue.
+  
+\subsection{}\label{sec:1d}
+Write a simple program implementing the power method for the matrix $A$.
+
+
+\section{The Inverse Iteration}
+Take $A$ to be the matrix above, and let $\theta\in\mathbb{R}$ and let ${\boldsymbol x_0}\in\mathbb{R}^3$.
+
+\subsection{}
+If $\theta=2$, where will the sequence defined in (i)
+  converge to and why?
+
+\subsection{}
+If $\theta=-2$, where will the sequence defined in (i)
+  converge to and why?
+
+\subsection{}
+Write a simple program implementing the inverse power method.
+
+\section{}
+What is the flops for Computing
+
+\begin{itemize}
+  \item $(I-2vv^T)x$
+  \item $x-(2vv^T)x$
+  \item $x-2*v(v^Tx)$
+\end{itemize}
+
+
+
+
+\end{document}
