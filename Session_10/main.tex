@@ -1,0 +1,116 @@
+\documentclass{article}%ctex
+\input{~/code/math_commands.tex}
+
+
+
+
+\title{\huge Session 10\\
+\normalsize}
+\author{Xuanxi Zhang}
+\begin{document}
+\maketitle
+
+\section{Vandermonde matrix}
+The interpolation problem is, given a smooth function $f$, to find an order $n$ polynomial $p_n(x) = \sum_{j=0}^n a_j x^j$ equal to $f$ on $\{x_0, x_1, \cdots, x_n\}$, which can be converted to a linear system:
+$$
+\begin{bmatrix}
+1 & x_0 & x_0^2 & \cdots & x_0^n\\
+1 & x_1 & x_1^2 & \cdots & x_1^n\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+1 & x_n & x_n^2 & \cdots & x_n^n
+\end{bmatrix}
+\begin{bmatrix}
+a_0\\
+a_1\\
+\vdots\\
+a_n
+\end{bmatrix}=\begin{bmatrix}
+f(x_0)\\
+f(x_1)\\
+\vdots\\
+f(x_n)
+\end{bmatrix}
+$$
+Here the matrix on the left is called the Vandermonde matrix, which is also very important in quantum mechanics. We will proof the existence and uniqueness of $p_n(x)$ by studying the Vandermonde matrix.
+\subsection{}
+$$
+\det\left(\begin{bmatrix}
+  1 & x_0 & x_0^2 & \cdots & x_0^n\\
+1 & x_1 & x_1^2 & \cdots & x_1^n\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+1 & x_n & x_n^2 & \cdots & x_n^n
+\end{bmatrix}\right)=\det\left(\begin{bmatrix}
+  1 & x_0 & x_0^2 & \cdots & x_0^n\\
+1 & x_1 & x_1^2 & \cdots & x_1^n\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+1 & x_n & x_n^2 & \cdots & x_n^n
+\end{bmatrix}\begin{bmatrix}
+  1&-x_0&&&\\ 
+  &1&-x_0&&\\
+  &&\ddots&\ddots&\\
+  &&&1&-x_0
+\end{bmatrix}\right)
+$$
+What is the result of matrix product on the right?
+\subsection{}
+Prove that for a Vandermonde matrix $V$, $\det(V)=\prod_{0\leq i<j\leq n}(x_j-x_i)$, by conduction.
+\subsection{}
+Conclude that when $x_i$ are distinct, the Vandermonde matrix is invertible.
+
+\section{Interpolation basics}
+\begin{itemize}
+\item True or False? For the nodes $x_0=0, x_1=1, x_2= 2$, the
+  Lagrange interpolation polynomial $L_0(x)$ is $-x^2 + 1$.
+\item True or False? We compute the Hermite interpolant with 3 distinct nodes of
+  a function $f$ that is a polynomial of degree $4$. Then this
+  Hermite interpolant is identical to $f$. (In short: Hermite
+  interpolation with 3 nodes is exact for polynomials of degree 4.)
+\item True or False? Hermite interpolation with 4 distinct nodes is exact for
+  polynomials of degree 6.
+\item True or false: Let $p_n$ be the Lagrange interpolant to a
+function $f$ with $n+1$ interpolation points, and $e_n(x) =
+|p_n(x) - f(x)|$.  The interpolation error $\|e_n\|_\infty$ {\em
+always} gets arbitrarily small for large $n$, i.e.,
+$\|e_n\|_\infty \rightarrow 0$ as $n \rightarrow \infty$.
+\end{itemize}
+
+\section{Lagrange interpolation polynomial example}
+Let $x_0,\ldots, x_n$ be distinct interpolation nodes, and let
+  $$
+  p_n(x) = \sum^n_{k=0}L_{k}(x)(x_k)^j,
+  $$
+where $j$ is an integer and $n \geq j>0$. What is the $p_n(x)$ function? What are the values of $p_n(0)$ and $p_n(1)$?
+
+\section{Hermite interpolation polynomial example}
+Recall that the Hermite interpolation of a function $f$ at the points $x_0,x_1,x_2$ has the form 
+$$p(x) = \sum_{j=0}^2H_j(x)f(x_j)
++ \sum_{j=0}^2K_j(x)f'(x_j).$$ 
+where 
+$$
+H_j(x) = (1-2(x-x_j)L_j'(x_j))L_j^2(x),\quad K_j(x) = (x-x_j)L_j^2(x).
+$$
+\subsection{}
+Show that the polynomial
+$$ -\frac{1}{\pi}x^2 + x$$ 
+is the Hermite interpolation polynomial of $f(x):=\sin(x)$ based on the nodes $x_0=0$, $x_1=\pi$.
+  
+\subsection{}
+Calculate all 4 Hermite basis for the nodes $x_0=0$, $x_1=1$. This might be useful for the next section.
+
+
+\section{spline interpolation}
+Regular interpolation methods suffer from several issues:
+\begin{itemize}
+  \item They cannot guarantee that the interpolation error will go to zero for all functions as we use more interpolation points. For example, the Runge phenomenon.
+  \item Higher degree polynomials require more computations.
+\end{itemize}
+
+To address these issues, we often use piecewise polynomial interpolation, known as spline interpolation. There are two common types of spline interpolation: Lagrange and Hermite splines. The former is the simplest $C$ interpolant, while the latter is the simplest $C^1$ interpolant.
+
+
+
+
+
+
+
+\end{document}
