@@ -1,0 +1,99 @@
+\documentclass{article}%ctex
+\input{~/code/math_commands.tex}
+
+
+
+
+\title{\huge Session 11\\
+\normalsize}
+\author{Xuanxi Zhang}
+\begin{document}
+\maketitle
+
+\section{Deriving a new quadrature rule}
+Given $f:[0,1]\rightarrow \mathbb{R}$, you want to derive a new
+  quadrature rule that does uses not only function values, but also
+  gradient values:
+\begin{equation}
+    \int_0^1 f(x)\,d x \approx \alpha_0 f(0) + \alpha_1 f'(0) + \alpha_2 f(1). \label{eq:11_3a}
+\end{equation}
+  
+\subsection{}
+First, find polynomials $J_0, J_1, J_2 \in \mathcal{P}_2$, with the
+  following properties:
+  \begin{align*}
+    & J_0(0)=1,\quad J_0'(0)=0,\quad J_0(1)=0\\
+    & J_1(0)=0,\quad J_1'(0)=1,\quad J_1(1)=0\\
+    & J_2(0)=0,\quad J_2'(0)=0,\quad J_2(1)=1.
+  \end{align*}
+(Hint: For each $J_i$, make an ansatz for a quadratic polynomial using the monomial basis.)
+Given $f$, you can now define a polynomial approximation $p\in \mathcal{P}_2$ via 
+\begin{align}
+    p(x)=f(0)J_0(x)+f'(0)J_1(x)+f(1)J_2(x). \label{eq:11_3b}
+\end{align}
+The polynomial $p$ is an approximation to $f$ in the sense that
+$p(0)=f(0)$, $p'(0)=f'(0)$ and $p(1)=f(1)$. 
+
+\subsection{}
+Use the polynomial
+  $p$ derived above and the same method used to derive the Newton-Cotess
+  quadrature rules, to find the coefficients $\alpha_0$, $\alpha_1$ and
+  $\alpha_2$ in \eqref{eq:11_3a}.
+  
+\subsection{}
+Use your new quadrature rule to approximate
+  $\int_0^1\exp(2x)\sin^2(x)\,dx$, and also compare with
+  Simpson's rule. The exact value of this integral is 1.2668\dots. Note $e^2\sin^2(1)\approx 5.232$, $e^1\sin^2(\half)\approx 0.6248$
+
+
+\section{Trapezoidal rule for smooth periodic functions}
+
+We investigate how the (composite) trapezoidal rule performs for smooth, periodic functions. Consider integrating the smooth, periodic function $f(x) = e^{\sin x}$ over a single period. The exact value of the integral is
+\[
+I(f) = \int_0^{2\pi} e^{\sin x} \, d x = 7.95492652101284527\dots.
+\]
+
+\subsection{}
+Write down the composite trapezoidal rule $T_N(f)$ on equispaced nodes $0=x_0 \le  \dots \le x_N = 2\pi$ for estimating the value of this integral. 
+
+\subsection{}
+Simplify your expression for $T_N(f)$ using the periodicity of $f$.
+Show that $T_N(f)$ is equivalent to both a left-endpoint Riemann sum and a right-endpoint Riemann sum approximation to $I(f)$.
+
+
+
+\section{Convergence order of quadrature}
+\subsection{}
+We would like to integrate a function on $[0,1]$ using the composite trapezoid rule with sub-interval size $h$. We name the result $T_h$. How does the error ($e_h = |T_h-I|$) scale with $h$?
+
+\subsection{}
+let $f(x)=e^{\sin(x)+\pi \cos(x)}+e^x$
+Compute $T_h(f)$ for various progressively larger $N$. Plot the quadrature errors against $h$ on a log-log plot.
+\subsection{}
+In real application, we do not know the true value of the integral. To verify the order of convergence of our code, we can calculate this quantity:
+\begin{align*}
+    \frac{T_h-T_{h/2}}{T_{h/2}-T_{h/4}}.
+\end{align*}
+How does this quantity scale with $h$?
+
+\subsection{}
+show this by code using the same $f$.
+
+
+
+
+\newpage
+\section*{Solutions}
+\subsection*{1.1}
+The polynomials $J_0, J_1, J_2 \in \mathcal{P}_2$ with the given properties can be found as follows:
+\begin{align*}
+    J_0(x) &= 1 - x^2  \\
+    J_1(x) &= x - x^2  \\
+    J_2(x) &= x^2 .
+\end{align*}
+2/3, 1/6, 1/3
+
+1.744, 1.2885333333
+
+
+\end{document}
